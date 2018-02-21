@@ -8,9 +8,9 @@
 - Create a rule in Secret Server for client onboarding:
   - Navigate to Admin > SDK Client Management > Client Onboarding Tab
   - Click on the “+ Rule” button to create a new Rule
-  - Name your Rule (Something the helps identify what this is)
+  - Name your Rule (Something that helps identify what this is, I use the application name)
   - Assign IPv4 restrictions (optional)
-  - Assign an Application User Account (create one if you hadn’t already)
+  - Assign an Application User Account (create one if you haven't already)
   - Generate a Rule Key (optional)
   - Save
 - The application account you created needs to have access to the Secrets your application needs. Ensure the permissions are accurate at the folder/secret level
@@ -19,14 +19,18 @@
 
 - Download the SDK files from NuGet. You can do this either from NuGet.org or directly from Visual Studio
   - Search for Thycotic
-  - Install the following packages in no order
-  - Thycotic.SecretServer.SDK
-  - Thycotic.SecretServer.SDK.Extension.Configuration
-  - Thycotic.SecretServer.SDK.Extension.Integration
+  - Install the following packages:
+    - Thycotic.SecretServer.SDK
+    - Thycotic.SecretServer.SDK.Extension.Configuration
+    - Thycotic.SecretServer.SDK.Extension.Integration
 - In your Project add the following references:
-  - using Thycotic.SecretServer.Sdk.Extensions.Integration.Clients;
-  - using Thycotic.SecretServer.Sdk.Extensions.Integration.Models;
-  - using Thycotic.SecretServer.Sdk.Infrastructure.Models;
+
+```C#
+
+  using Thycotic.SecretServer.Sdk.Extensions.Integration.Clients;
+  using Thycotic.SecretServer.Sdk.Extensions.Integration.Models;
+  using Thycotic.SecretServer.Sdk.Infrastructure.Models;
+```
 
 Alternatively, you can instantiate the objects and let Visual Studio add the references for you.
 
@@ -48,26 +52,27 @@ client.Configure(new ConfigSettings
   });
   ```
 The code above will register the integrated client with Secret Server. Below is an explanation of the various methods and properties for that sample code:
-- ConfigSettings is an object
-- SecretServerUrl is the base URL for your Secret Server (if you have a Load Balancer then it should be the load balanced URL
-- RuleName is the name of the rule we created earlier
-- RuleKey is the Key we generated, can be NULL if no key
-- CacheStrategy is how the SDK will cache requests. This is an enum that contains four values:
-  - CacheThenServer
-  - CacheThenServerAllowExpired (This will allow fallback in case Secret Server isn’t available and the cache is expired, the SDK will still use the cache until it can contact Secret Server and prime the cache)
-  - Never
-  - ServerThenCache (This mode is for redundancy since it will fall back to cache in case Secret Server isn’t available)
-- CacheAge is how long the cache is valid before it expires in minutes
-- ResetToken  is a random string to revoke clients and reinitialize them
+- `ConfigSettings` is an object
+- `SecretServerUrl` is the base URL for your Secret Server (if you have a Load Balancer then it should be the load balanced URL
+- `RuleName` is the name of the rule we created earlier
+- `RuleKey` is the Key we generated, can be NULL if no key
+- `CacheStrategy` is how the SDK will cache requests. This is an enum that contains four values:
+  - `CacheThenServer`
+  - C`acheThenServerAllowExpired` (This will allow fallback in case Secret Server isn’t available and the cache is expired, the SDK will still use the cache until it can contact Secret Server and prime the cache)
+  - `Never`
+  - `ServerThenCach`e (This mode is for redundancy since it will fall back to cache in case Secret Server isn’t available)
+- `CacheAge` is how long the cache is valid before it expires in minutes
+- `ResetToken`  is a random string to revoke clients and reinitialize them
+
 Now we can use the client object to get a Secret, Token, or a Secret field from Secret Server, and feed that to our application
 ```c#
 
 var password= client.GetSecretField(int,"password"); //replace int with Secret ID
 
 ```
-The code above will retrieve a password from Secret Server, which we can then pass to a connection string or anywhere a password is needed
+The code above will retrieve a password from Secret Server, which we can then pass to a connection string or anywhere a password is needed.
 
-You can call the ```GetSecret();``` method on the client object to get the full Secret object, and then access the items property which holds a collection of the Secret fields and their values. How you access these values is up to you, but you can simple use Linq to query what you’re looking for e.g.
+You can call the ```GetSecret();``` method on the client object to get the full Secret object, and then access the items property which holds a collection of the Secret fields and their values. How you access these values is up to you, but you can use Linq to query what you’re looking for, e.g.
 ```C#
 
 var secret = client.GetSecret(int); //replace int with a secret ID
@@ -82,7 +87,7 @@ and then use these variables to build a connection string:
 
 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(GetConnectionString())
 {
-ConnectionString = $"server={server};user id={username};password={password};initial catalog={database}"
+    ConnectionString = $"server={server};user id={username};password={password};initial catalog={database}"
 };
 
 ```
@@ -143,3 +148,88 @@ namespace SDK.Integration
 }
 
 ```
+
+## SDK Integration in web.config
+
+In this scenario we’re assuming we can't recompile the application, or prefer not to. Our setup could be as follows:
+- ASP.Net web application and is a NetStandard2.0 application
+- We have a ConnectionString(s) inside of our config file that contains plaintext passwords
+- We have AppSettings with plaintext passwords that our app uses to connect to external services
+The SDK will allow us to pull data from Secret Server and inject it in the config file.
+
+### Prerequisites
+
+- Create a rule in Secret Server for client onboarding:
+  - Navigate to Admin > SDK Client Management > Client Onboarding Tab
+  - Click on the “+ Rule” button to create a new Rule
+    - Name your Rule (Something the helps identify what this is)
+    - Assign IPv4 restrictions (optional)
+    - Assign an Application User Account (create one if you hadn’t already)
+    - Generate a Rule Key (optional)
+    - Save
+- Download the dlls from [Nuget](https://www.nuget.org/packages?q=thycotic "https://www.nuget.org/packages?q=thycotic")
+- After downloading, use 7zip to unpack the ngpkg and navigate to the lib directory
+- Make sure you only extract dlls from subdirectories in NetStandard2.0 or net461
+- Copy the extracted dlls to your application’s bin folder:
+    - Thycotic.SecretServer.Sdk.dll
+    - Thycotic.SecretServer.Sdk.Extensions.Configuration.dll
+    - Thycotic.SecretServer.Sdk.Extensions.Integration.dll
+    - Thycotic.SecretServer.Sdk.Extensions.Integration.HttpModule.dll
+
+### Configure the SDK client
+
+- Open you web.config file in your preferred code editor and add the inside your appSettings tag following:
+  ```xml
+
+  <appSettings>
+      <add key="tss:CacheAge" value="<cache-age>" />
+      <add key="tss:CacheStrategy" value="<cache-strategy>" />
+      <add key="tss:SecretServerUrl" value="<your-secret-server-url>" />
+      <add key="tss:RuleName" value="<rule-name>" />
+      <add key="tss:RuleKey" value="<rule-key>" />
+      <add key="tss:ResetToken" value="<reset-token>" />
+  </appSettings>
+
+  ```
+  - This will configure the SDK to talk to Secret Server, attach it to a rule, authenticate with the optional pre-shared key, configure caching, and add a reset token for reinitialization. Below is an explanation of these key value pairs:
+    - tss:CacheAge: cache age in minutes. i.e. how long should the SDK keep the cache before trying to refresh
+    - tss:CacheStrategy: should the SDK cache or not? Strategies are numbered 0 – 3
+      - 0: Never cache
+      - 1: Server then cache
+      - 2: cache then server
+      - 3: cache then server, but allow expired cache if the server is unreachable
+    - SecretServerUrl: Your Secret Server Url
+    - tss:RuleName: the name of the rule you created in Secret Server
+    - tss:RuleKey:  the pre shared key you generated for the rule
+    - tss:ResetToken: This is a string value used to reinitialize the SDK, it can be anything, and changing it will cause the client to reinitialize and reregister itself
+- Scroll to
+    ```xml
+          <system.webServer>
+                <module>
+    ```
+  tag and add the following:
+    ```xml
+    <remove name="ThycoticInterceptModule" />
+    <add name="ThycoticInterceptModule"
+    type="Thycotic.SecretServer.Sdk.Extensions.Integration.HttpModule.Modules.ThycoticInterceptModule,Thycotic.SecretServer.Sdk.Extensions.Integration.HttpModule" />
+    ```
+- Our section should look similar to this:
+  ```xml
+
+  <system.webServer>
+      <validation validateIntegratedModeConfiguration="false" />
+      <modules>
+        <remove name="ThycoticInterceptModule" />
+        <add name="ThycoticInterceptModule"
+            type="Thycotic.SecretServer.Sdk.Extensions.Integration.HttpModule.Modules.ThycoticInterceptModule,Thycotic.SecretServer.Sdk.Extensions.Integration.HttpModule" />
+        <remove name="TelemetryCorrelationHttpModule" />
+        <add name="TelemetryCorrelationHttpModule"
+            type="Microsoft.AspNet.TelemetryCorrelation.TelemetryCorrelationHttpModule, Microsoft.AspNet.TelemetryCorrelation"
+            preCondition="integratedMode,managedHandler" />
+        <remove name="ApplicationInsightsWebTracking" />
+        <add name="ApplicationInsightsWebTracking"
+            type="Microsoft.ApplicationInsights.Web.ApplicationInsightsHttpModule, Microsoft.AI.Web"
+            preCondition="managedHandler" />
+      </modules>
+    </system.webServer>
+    ```
