@@ -30,9 +30,9 @@ In this scenario we’re assuming we can recompile the application, and will dyn
 1. Download the SDK files from NuGet. You can do this either from NuGet.org or directly from Visual Studio
    1. Search for Thycotic
    2. Install the following packages:
-    - Thycotic.SecretServer.SDK
-    - Thycotic.SecretServer.SDK.Extension.Configuration
-    - Thycotic.SecretServer.SDK.Extension.Integration
+      - Thycotic.SecretServer.SDK
+      - Thycotic.SecretServer.SDK.Extension.Configuration
+      - Thycotic.SecretServer.SDK.Extension.Integration
 1. In your Project add the following references:
 
 ```C#
