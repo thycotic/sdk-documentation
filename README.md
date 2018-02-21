@@ -8,7 +8,7 @@
   * [Usage](#usage-1)
 
 # Thycotic SDK Integration Doc
-
+<!-- toc -->
 ## SDK Integration in C# project
 
 ### Prerquisites
