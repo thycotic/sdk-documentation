@@ -4,10 +4,11 @@
 
 - [Notes before using the integrated SDK](#notes-before-using-the-integrated-sdk)
   - [SDK Integration in C# project](#sdk-integration-in-c-project)
-    - [Prerquisites](#prerquisites)
+    * [Prerquisites](#prerquisites)
     - [Configuring the SDK to connect to your Secret Server](#configuring-the-sdk-to-connect-to-your-secret-server)
     - [Usage](#usage)
 - [SDK Integration in web.config](#sdk-integration-in-webconfig)
+    * [Prerquisites](#prerquisites-1)
 
 <!-- /TOC -->
 
