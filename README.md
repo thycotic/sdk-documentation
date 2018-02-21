@@ -19,17 +19,17 @@ In this scenario we’re assuming we can recompile the application, and will dyn
   - .NET Core 2.0 if building a .NET Core application
   - .NET (Full Framework) 4.6.1
 1. Create a rule in Secret Server for client onboarding:
-  1. Navigate to Admin > SDK Client Management > Client Onboarding Tab
-  1. Click on the “+ Rule” button to create a new Rule
-  1. Name your Rule (Something that helps identify what this is, e.g. the application name)
-  1. Assign IPv4 restrictions (optional)
-  1. Assign an Application User Account (create one if you haven't already)
-  1. Generate a Rule Key (optional)
-  1. Save
+   1. Navigate to Admin > SDK Client Management > Client Onboarding Tab
+   1. Click on the “+ Rule” button to create a new Rule
+   1. Name your Rule (Something that helps identify what this is, e.g. the application name)
+   1. Assign IPv4 restrictions (optional)
+   1. Assign an Application User Account (create one if you haven't already)
+   1. Generate a Rule Key (optional)
+   1. Save
 1. The application account you created needs to have access to the Secrets your application needs. Ensure the permissions are accurate at the folder/secret level
 1. Download the SDK files from NuGet. You can do this either from NuGet.org or directly from Visual Studio
-  1. Search for Thycotic
-  2. Install the following packages:
+   1. Search for Thycotic
+   2. Install the following packages:
     - Thycotic.SecretServer.SDK
     - Thycotic.SecretServer.SDK.Extension.Configuration
     - Thycotic.SecretServer.SDK.Extension.Integration
@@ -172,13 +172,13 @@ The SDK will allow us to pull data from Secret Server and inject it in the confi
 ### Prerequisites - Web
 
 1. Create a rule in Secret Server for client onboarding:
-  1. Navigate to Admin > SDK Client Management > Client Onboarding Tab
-  1. Click on the “+ Rule” button to create a new Rule
-    1. Name your Rule
-    1. Assign IPv4 restrictions (optional)
-    1. Assign an Application User Account (create one if you haven't already)
-    1. Generate a Rule Key (optional)
-    1. Save
+   1. Navigate to Admin > SDK Client Management > Client Onboarding Tab
+   1. Click on the “+ Rule” button to create a new Rule
+      1. Name your Rule
+      1. Assign IPv4 restrictions (optional)
+      1. Assign an Application User Account (create one if you haven't already)
+      1. Generate a Rule Key (optional)
+      1. Save
 1. Download the dlls from [Nuget](https://www.nuget.org/packages?q=thycotic "https://www.nuget.org/packages?q=thycotic")
 1. After downloading, use 7zip to unpack the ngpkg and navigate to the lib directory
 1. Make sure you only extract dlls from subdirectories in NetStandard2.0 or net461
