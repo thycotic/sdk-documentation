@@ -5,7 +5,7 @@
   - [Configuring the SDK](#configuring-the-sdk)
   - [Usage](#usage)
 - [SDK Integration in web.config](#sdk-integration-in-webconfig)
-  - [Prerequisites - Web](#prerquisites---web)
+  - [Prerequisites - Web](#prerequisites---web)
   - [Configuring the SDK - Web](#configuring-the-sdk---web)
   - [Usage - Web](#usage---web)
 
@@ -188,7 +188,7 @@ The SDK will allow us to pull data from Secret Server and inject it in the confi
     - Thycotic.SecretServer.Sdk.Extensions.Integration.dll
     - Thycotic.SecretServer.Sdk.Extensions.Integration.HttpModule.dll
 
-### Configure the SDK - Web
+### Configuring the SDK - Web
 
 - Open you web.config file in your preferred code editor and add the inside your appSettings tag following:
   ```xml
