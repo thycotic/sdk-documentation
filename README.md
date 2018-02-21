@@ -1,16 +1,13 @@
-# Notes before using the integrated SDK
-
-<!-- TOC -->
-
-- [Notes before using the integrated SDK](#notes-before-using-the-integrated-sdk)
-  - [SDK Integration in C# project](#sdk-integration-in-c-project)
-    * [Prerquisites](#prerquisites)
-    - [Configuring the SDK to connect to your Secret Server](#configuring-the-sdk-to-connect-to-your-secret-server)
-    - [Usage](#usage)
+- [SDK Integration in C# project](#sdk-integration-in-C#-project)
+  * [Prerquisites](#prerquisites)
+  * [Configuring the SDK](#configuring-the-sdk)
+  * [Usage](#usage)
 - [SDK Integration in web.config](#sdk-integration-in-webconfig)
-    * [Prerquisites](#prerquisites-1)
+  * [Prerquisites](#prerquisites-1)
+  * [Configuring the SDK](#configuring-the-sdk-1)
+  * [Usage](#usage-1)
 
-<!-- /TOC -->
+# Thycotic SDK Integration Doc
 
 ## SDK Integration in C# project
 
@@ -45,7 +42,7 @@
 
 Alternatively, you can instantiate the objects and let Visual Studio add the references for you.
 
-### Configuring the SDK to connect to your Secret Server
+### Configuring the SDK
 
 You will have to instantiate a new SecretServerClient object to interact with the SDK. Below is a sample code on how to do that:
 
@@ -189,7 +186,7 @@ The SDK will allow us to pull data from Secret Server and inject it in the confi
     - Thycotic.SecretServer.Sdk.Extensions.Integration.dll
     - Thycotic.SecretServer.Sdk.Extensions.Integration.HttpModule.dll
 
-### Configure the SDK client
+### Configure the SDK
 
 - Open you web.config file in your preferred code editor and add the inside your appSettings tag following:
   ```xml
