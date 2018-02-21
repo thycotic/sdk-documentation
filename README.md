@@ -10,7 +10,9 @@
 # Thycotic SDK Integration Doc
 <!-- toc -->
 ## SDK Integration in C# project
-C#
+
+In this scenario we’re assuming we can recompile the application, and will dynamically retrieve passwords from the vault whenever needed
+
 ### Prerquisites
 
 - .NetStandard2.0 which equals to
