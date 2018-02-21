@@ -1,6 +1,19 @@
 # Notes before using the integrated SDK
 
-## You will need to install the following if not installed
+<!-- TOC -->
+
+- [Notes before using the integrated SDK](#notes-before-using-the-integrated-sdk)
+  - [SDK Integration in C# project](#sdk-integration-in-c-project)
+    - [Prerquisites](#prerquisites)
+    - [Configuring the SDK to connect to your Secret Server](#configuring-the-sdk-to-connect-to-your-secret-server)
+    - [Usage](#usage)
+- [SDK Integration in web.config](#sdk-integration-in-wen.config)
+
+<!-- /TOC -->
+
+## SDK Integration in C# project
+
+### Prerquisites
 
 - .NetStandard2.0 which equals to
   - .NET core 2.0 if you’re building a .NET core application
@@ -14,9 +27,6 @@
   - Generate a Rule Key (optional)
   - Save
 - The application account you created needs to have access to the Secrets your application needs. Ensure the permissions are accurate at the folder/secret level
-
-## SDK Integration in C# project
-
 - Download the SDK files from NuGet. You can do this either from NuGet.org or directly from Visual Studio
   - Search for Thycotic
   - Install the following packages:
@@ -34,7 +44,7 @@
 
 Alternatively, you can instantiate the objects and let Visual Studio add the references for you.
 
-## Configuring the SDK to connect to your Secret Server
+### Configuring the SDK to connect to your Secret Server
 
 You will have to instantiate a new SecretServerClient object to interact with the SDK. Below is a sample code on how to do that:
 
@@ -63,6 +73,8 @@ The code above will register the integrated client with Secret Server. Below is 
   - `ServerThenCach`e (This mode is for redundancy since it will fall back to cache in case Secret Server isn’t available)
 - `CacheAge` is how long the cache is valid before it expires in minutes
 - `ResetToken`  is a random string to revoke clients and reinitialize them
+
+### Usage
 
 Now we can use the client object to get a Secret, Token, or a Secret field from Secret Server, and feed that to our application
 ```c#
