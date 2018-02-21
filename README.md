@@ -1,6 +1,6 @@
 # Thycotic SDK Integration Doc
 
-- [SDK Integration in C# project](#sdk-integration-in-C-project)
+- [SDK Integration in C# project](#dk-integration-in-c-project)
   - [Prerequisites](#prerequisites)
   - [Configuring the SDK](#configuring-the-sdk)
   - [Usage](#usage)
