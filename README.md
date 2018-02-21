@@ -167,7 +167,7 @@ In this scenario we’re assuming we can't recompile the application, or prefer 
 - We have AppSettings with plaintext passwords that our app uses to connect to external services
 The SDK will allow us to pull data from Secret Server and inject it in the config file.
 
-### Prerequisites
+### Prerequisites 
 
 - Create a rule in Secret Server for client onboarding:
   - Navigate to Admin > SDK Client Management > Client Onboarding Tab
@@ -186,7 +186,7 @@ The SDK will allow us to pull data from Secret Server and inject it in the confi
     - Thycotic.SecretServer.Sdk.Extensions.Integration.dll
     - Thycotic.SecretServer.Sdk.Extensions.Integration.HttpModule.dll
 
-### Configure the SDK
+### Configure the SDK 
 
 - Open you web.config file in your preferred code editor and add the inside your appSettings tag following:
   ```xml
