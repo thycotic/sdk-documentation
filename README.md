@@ -233,3 +233,19 @@ The SDK will allow us to pull data from Secret Server and inject it in the confi
       </modules>
     </system.webServer>
     ```
+> Important: Might have to require a binding redirect if you run into:
+>
+>```Message: System.IO.FileLoadException : Could not load file or assembly 'System.Runtime.InteropServices.RuntimeInformation, Version=0.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)```
+>
+> simply add this in your web.config file
+>
+
+```xml
+
+<dependentAssembly>
+<assemblyIdentity name="System.Runtime.InteropServices.RuntimeInformation"    publicKeyToken="b03f5f7f11d50a3a" culture="neutral" />
+<bindingRedirect oldVersion="0.0.0.0-4.0.2.0" newVersion="4.0.2.0" />
+</dependentAssembly>
+
+```
+> Match the version number with what you have installed on your system
