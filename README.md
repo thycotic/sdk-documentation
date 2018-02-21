@@ -219,7 +219,7 @@ The SDK will allow us to pull data from Secret Server and inject it in the confi
           <system.webServer>
                 <module>
     ```
-  tag and add the following:
+  and add the following:
     ```xml
     <remove name="ThycoticInterceptModule" />
     <add name="ThycoticInterceptModule"
