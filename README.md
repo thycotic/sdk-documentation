@@ -1,19 +1,19 @@
-- [SDK Integration in C# project](#sdk-integration-in-C#-project)
-  * [Prerquisites](#prerquisites)
-  * [Configuring the SDK](#configuring-the-sdk)
-  * [Usage](#usage)
-- [SDK Integration in web.config](#sdk-integration-in-webconfig)
-  * [Prerquisites](#prerquisites-1)
-  * [Configuring the SDK](#configuring-the-sdk-1)
-  * [Usage](#usage-1)
-
 # Thycotic SDK Integration Doc
-<!-- toc -->
+
+- [SDK Integration in C# project](#sdk-integration-in-C#-project)
+  - [Prerequisites](#prerquisites)
+  - [Configuring the SDK](#configuring-the-sdk)
+  - [Usage](#usage)
+- [SDK Integration in web.config](#sdk-integration-in-webconfig)
+  - [Prerequisites - Web](#prerquisites-web)
+  - [Configuring the SDK - Web](#configuring-the-sdk-web)
+  - [Usage - Web](#usage-web)
+
 ## SDK Integration in C# project
 
 In this scenario we’re assuming we can recompile the application, and will dynamically retrieve passwords from the vault whenever needed
 
-### Prerquisites
+### Prerequisites
 
 - .NetStandard2.0 which equals to
   - .NET core 2.0 if you’re building a .NET core application
@@ -166,10 +166,10 @@ namespace SDK.Integration
 In this scenario we’re assuming we can't recompile the application, or prefer not to. Our setup could be as follows:
 - ASP.Net web application and is a NetStandard2.0 application
 - We have a ConnectionString(s) inside of our config file that contains plaintext passwords
-- We have AppSettings with plaintext passwords that our app uses to connect to external services
+- We have appSettings with plaintext passwords that our app uses to connect to external services
 The SDK will allow us to pull data from Secret Server and inject it in the config file.
 
-### Prerequisites 
+### Prerequisites - Web
 
 - Create a rule in Secret Server for client onboarding:
   - Navigate to Admin > SDK Client Management > Client Onboarding Tab
@@ -188,7 +188,7 @@ The SDK will allow us to pull data from Secret Server and inject it in the confi
     - Thycotic.SecretServer.Sdk.Extensions.Integration.dll
     - Thycotic.SecretServer.Sdk.Extensions.Integration.HttpModule.dll
 
-### Configure the SDK 
+### Configure the SDK - Web
 
 - Open you web.config file in your preferred code editor and add the inside your appSettings tag following:
   ```xml
@@ -225,7 +225,7 @@ The SDK will allow us to pull data from Secret Server and inject it in the confi
     <add name="ThycoticInterceptModule"
     type="Thycotic.SecretServer.Sdk.Extensions.Integration.HttpModule.Modules.ThycoticInterceptModule,Thycotic.SecretServer.Sdk.Extensions.Integration.HttpModule" />
     ```
-- Our section should look similar to this:
+- Our section should look like this:
   ```xml
 
   <system.webServer>
@@ -261,3 +261,36 @@ The SDK will allow us to pull data from Secret Server and inject it in the confi
 
 ```
 > Match the version number with what you have installed on your system
+
+## Usage - Web
+
+To replace plaintext credentials in your web.config file we simply use string interpolation to replace the hard-coded values with Secret Server values as shown below
+
+Example old ConnectionString:
+```xml
+
+<connectionStrings>
+    <clear />
+    <add
+        name="AdventureWorks2014ConnectionString"
+        connectionString="Data Source=sql01.domain.com;Initial Catalog=AdventureWorks2014;Persist Security Info=True;User ID=sa;Password=SgW#5)zLpo($@d"
+        providerName="System.Data.SqlClient"
+    />
+  </connectionStrings>
+  ```
+
+New connection string with Secret Server SDK"
+
+```xml
+
+<connectionStrings>
+    <clear />
+    <add 
+        name="AdventureWorks2014ConnectionString"
+        connectionString="Data Source=${server};Initial Catalog=${database};Persist Security Info=True;User ID=${username};Password=${password}?3112"
+        providerName="System.Data.SqlClient"
+    />
+  </connectionStrings>
+```
+
+Where the `3112` is the Secret Id preceded by `?`
