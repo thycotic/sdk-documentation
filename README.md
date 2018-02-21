@@ -5,9 +5,9 @@
   - [Configuring the SDK](#configuring-the-sdk)
   - [Usage](#usage)
 - [SDK Integration in web.config](#sdk-integration-in-webconfig)
-  - [Prerequisites - Web](#prerquisites-web)
-  - [Configuring the SDK - Web](#configuring-the-sdk-web)
-  - [Usage - Web](#usage-web)
+  - [Prerequisites - Web](#prerquisites---web)
+  - [Configuring the SDK - Web](#configuring-the-sdk---web)
+  - [Usage - Web](#usage---web)
 
 ## SDK Integration in C# project
 
