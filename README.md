@@ -120,11 +120,11 @@ namespace SDK.Integration
     {
         static void Main(string[] args)
         {
-            var url = ""
-            var ruleName = ""
-            var ruleKey = ""
-            var cacheAge = int //replace with number for cache age
-            var secretId = int //replace with Secret ID
+            var url = "";       //replace with Secret Server URL
+            var ruleName = "";  //replace with SDK rule name
+            var ruleKey = "";   //replace with onboarding key
+            var cacheAge = int; //replace with number for cache age
+            var secretId = int; //replace with Secret ID
             var client = new SecretServerClient();
             //configure if not configured
             client.Configure(new ConfigSettings
