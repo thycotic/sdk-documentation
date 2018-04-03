@@ -8,6 +8,7 @@
   - [Prerequisites - Web](#prerequisites---web)
   - [Configuring the SDK - Web](#configuring-the-sdk---web)
   - [Usage - Web](#usage---web)
+- [SDK API](#sdk-api)
 
 ## SDK Integration in C# project
 
@@ -18,8 +19,8 @@ In this scenario we’re assuming we can recompile the application, and will dyn
 1. .NET Standard 2.0 which equals to
   - .NET Core 2.0 if building a .NET Core application
   - .NET (Full Framework) 4.6.1
-1. Create a rule in Secret Server for client onboarding:
-   1. Navigate to Admin > SDK Client Management > Client Onboarding Tab
+1. Create a rule in Secret Server for client on boarding:
+   1. Navigate to Admin > SDK Client Management > Client On boarding Tab
    1. Click on the “+ Rule” button to create a new Rule
    1. Name your Rule (Something that helps identify what this is, e.g. the application name)
    1. Assign IPv4 restrictions (optional)
@@ -61,7 +62,9 @@ client.Configure(new ConfigSettings
     ResetToken= string
   });
   ```
+
 The code above will register the integrated client with Secret Server. Below is an explanation of the properties of the client's ConfigSettings:
+
 - `ConfigSettings` is an object
 - `SecretServerUrl` is the base URL for your Secret Server (if you have a Load Balancer then it should be the load balanced URL
 - `RuleName` is the name of the rule we created earlier
@@ -77,14 +80,17 @@ The code above will register the integrated client with Secret Server. Below is 
 ### Usage
 
 Now we can use the client to get a Secret, Token, or a Secret field from Secret Server, and feed that to our application
+
 ```c#
 
 var password = client.GetSecretField(<SECRET ID>,"password"); //replace <SECRET ID>
 
 ```
+
 The code above will retrieve a password from Secret Server, which we can then pass to a connection string or anywhere a password is needed.
 
 You can call the ```GetSecret();``` method on the client object to get the full Secret object, and then access the items property which holds a collection of the Secret fields and their values. How you access these values is up to you, but you can use Linq to query what you’re looking for, e.g.
+
 ```C#
 
 var secret = client.GetSecret(<SECRET ID>); //replace <SECRET ID>
@@ -94,7 +100,9 @@ var password = secret.Items.First(x => x.Slug == "password").ItemValue;
 var database = secret.Items.First(x => x.Slug == "database").ItemValue;
 
 ```
+
 and then use these variables to build a connection string:
+
 ```C#
 
 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(GetConnectionString())
@@ -105,6 +113,7 @@ SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(GetConnectio
 ```
 
 Here is the complete code sample:
+
 ```C#
 
 using System;
@@ -122,7 +131,7 @@ namespace SDK.Integration
         {
             var url = "";       //replace with Secret Server URL
             var ruleName = "";  //replace with SDK rule name
-            var ruleKey = "";   //replace with onboarding key
+            var ruleKey = "";   //replace with on boarding key
             var cacheAge = int; //replace with number for cache age
             var secretId = int; //replace with Secret ID
             var client = new SecretServerClient();
@@ -164,9 +173,11 @@ namespace SDK.Integration
 ## SDK Integration in web.config
 
 In this scenario we’re assuming we can't recompile the application, or prefer not to. The use case is as follows:
+
 - ASP.NET web application and is a .NET Standard 2.0 application
   - We have a ConnectionString(s) inside of our config file that contains plaintext passwords
   - We have appSettings with plaintext passwords that our app uses to connect to external services
+
 The SDK will allow us to pull data from Secret Server and inject it in the config file.
 
 ### Prerequisites - Web
@@ -191,6 +202,7 @@ The SDK will allow us to pull data from Secret Server and inject it in the confi
 ### Configuring the SDK - Web
 
 - Open you web.config file in your preferred code editor and add the inside your appSettings tag following:
+
   ```xml
 
   <appSettings>
@@ -203,6 +215,7 @@ The SDK will allow us to pull data from Secret Server and inject it in the confi
   </appSettings>
 
   ```
+
   - This will configure the SDK to talk to Secret Server, attach it to a rule, authenticate with the optional pre-shared key, configure caching, and add a reset token for reinitialization. Below is an explanation of these key-value pairs:
     - tss:CacheAge: cache age in minutes. i.e. how long should the SDK keep the cache before trying to refresh
     - tss:CacheStrategy: should the SDK cache or not? Strategies are numbered 0 – 3
@@ -226,6 +239,7 @@ The SDK will allow us to pull data from Secret Server and inject it in the confi
     type="Thycotic.SecretServer.Sdk.Extensions.Integration.HttpModule.Modules.ThycoticInterceptModule,Thycotic.SecretServer.Sdk.Extensions.Integration.HttpModule" />
     ```
 - Our section should look like this:
+
   ```xml
 
   <system.webServer>
@@ -277,6 +291,7 @@ Example old ConnectionString:
         providerName="System.Data.SqlClient"
     />
   </connectionStrings>
+
   ```
 
 New connection string with Secret Server SDK"
@@ -291,6 +306,33 @@ New connection string with Secret Server SDK"
         providerName="System.Data.SqlClient"
     />
   </connectionStrings>
+
 ```
 
 Where the `3112` is the Secret Id preceded by `?`
+
+## SDK API
+
+### SecretServerClient() Class
+
+This class has the following methods:
+
+**.BustCache()**
+    
+    This method doesn't have an overload, and calling it destroys the SDK cache
+
+**.Configure(settings)**
+
+    settings
+    Type: Object
+    Key value pairs to configure the SDK
+
+**.Configure(settings, boolean)**
+   
+settings
+Type: Object
+Key value pairs to configure the SDK
+
+
+**.GetSecret()**
+This method returns a Secret object
