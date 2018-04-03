@@ -327,12 +327,16 @@ This class has the following methods:
     Type: Object
     Key value pairs to configure the SDK
 
-**.Configure(settings, boolean)**
+**.Configure(settings, boolean force)**
    
-settings
-Type: Object
-Key value pairs to configure the SDK
+    settings
+    Type: Object
+    Key value pairs to configure the SDK
 
+    force
+    Type: boolean
+    Default: false
+    Forces the SDK to reconfigure itself
 
 **.GetSecret()**
 This method returns a Secret object
