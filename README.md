@@ -4,11 +4,12 @@
   - [Prerequisites](#prerequisites)
   - [Configuring the SDK](#configuring-the-sdk)
   - [Usage](#usage)
+  - [SDK API](#sdk-api)
 - [SDK Integration in web.config (NetStandard 2.0)](#sdk-integration-in-webconfig)
   - [Prerequisites - Web](#prerequisites---web)
   - [Configuring the SDK - Web](#configuring-the-sdk---web)
   - [Usage - Web](#usage---web)
-- [SDK API](#sdk-api)
+
 
 ## SDK Integration in C# project
 
@@ -170,6 +171,56 @@ namespace SDK.Integration
 
 ```
 
+## SDK API
+
+### SecretServerClient() Class
+
+This class has the following methods:
+
+#### .BustCache()
+
+    This method doesn't have an overload, and calling it destroys the SDK cache
+
+#### .Configure(IConfigSettings settings, [bool force = false])
+
+<pre>
+<code><strong>settings</strong>
+Type: Object
+Key value pairs to configure the SDK</code>
+</pre>
+
+<pre>
+<code><strong>force (optional)</strong>
+Type: boolean
+Default: false
+Forces the SDK to reconfigure itself</code>
+</pre>
+
+#### .GetSecret(int id)
+
+This method returns a Secret object based on the REST secret model
+<pre>
+<code><strong>id</strong>
+Type: int32
+The secret id needed to retrieve the Secret</code>
+</pre>
+
+#### .GetSecretField(int id, string fieldslug)
+
+This method gets a specific field from the Secret instead of returning the whole object
+
+<pre>
+<code><strong>id</strong>
+Type: int32
+The Secret Id needed to retieve the Secret</code>
+</pre>
+
+<pre>
+<code><strong>fieldslug</strong>
+Type: String
+Slug identifier for the Secret field e.g. password</code>
+</pre>
+
 ## SDK Integration in web.config
 
 In this scenario we’re assuming we can't recompile the application, or prefer not to. The use case is as follows:
@@ -311,52 +362,3 @@ New connection string with Secret Server SDK"
 
 Where the `3112` is the Secret Id preceded by `?`
 
-## SDK API
-
-### SecretServerClient() Class
-
-This class has the following methods:
-
-#### .BustCache()
-
-    This method doesn't have an overload, and calling it destroys the SDK cache
-
-#### .Configure(IConfigSettings settings, [bool force = false])
-
-<pre>
-<code><strong>settings</strong>
-Type: Object
-Key value pairs to configure the SDK</code>
-</pre>
-
-<pre>
-<code><strong>force (optional)</strong>
-Type: boolean
-Default: false
-Forces the SDK to reconfigure itself</code>
-</pre>
-
-#### .GetSecret(int id)
-
-This method returns a Secret object based on the REST secret model
-<pre>
-<code><strong>id</strong>
-Type: int32
-The secret id needed to retrieve the Secret</code>
-</pre>
-
-#### .GetSecretField(int id, string fieldslug)
-
-This method gets a specific field from the Secret instead of returning the whole object
-
-<pre>
-<code><strong>id</strong>
-Type: int32
-The Secret Id needed to retieve the Secret</code>
-</pre>
-
-<pre>
-<code><strong>fieldslug</strong>
-Type: String
-Slug identifier for the Secret field e.g. password</code>
-</pre>
