@@ -341,6 +341,7 @@ This class has the following methods:
 #### .GetSecret(int id)
 
 This method returns a Secret object based on the REST secret model
+
     id
     Type: int32
     The secret id needed to retrieve the Secret
@@ -348,6 +349,7 @@ This method returns a Secret object based on the REST secret model
 #### .GetSecretField(int id, string fieldslug)
 
 This gets a specific field from the Secret instead of returning the whole object
+
     id
     Type: int32
     The Secret Id needed to retieve the Secret
