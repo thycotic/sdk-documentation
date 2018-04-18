@@ -317,18 +317,18 @@ Where the `3112` is the Secret Id preceded by `?`
 
 This class has the following methods:
 
-**.BustCache()**
-    
+#### .BustCache()
+
     This method doesn't have an overload, and calling it destroys the SDK cache
 
-**.Configure(settings)**
+#### .Configure(settings)
 
     settings
     Type: Object
     Key value pairs to configure the SDK
 
-**.Configure(settings, boolean force)**
-   
+#### .Configure(IConfigSettings settings, [bool force = false])
+
     settings
     Type: Object
     Key value pairs to configure the SDK
@@ -338,5 +338,20 @@ This class has the following methods:
     Default: false
     Forces the SDK to reconfigure itself
 
-**.GetSecret()**
-This method returns a Secret object
+#### .GetSecret(int id)
+
+This method returns a Secret object based on the REST secret model
+    id
+    Type: int32
+    The secret id needed to retrieve the Secret
+
+#### .GetSecretField(int id, string fieldslug)
+
+This gets a specific field from the Secret instead of returning the whole object
+    id
+    Type: int32
+    The Secret Id needed to retieve the Secret
+
+    fieldslug
+    Type: String
+    Slug identifier for the Secret field e.g. password
