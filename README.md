@@ -21,12 +21,12 @@ In this scenario we’re assuming we can recompile the application, and will dyn
   -.NET (Full Framework) 4.6.1
 1. Create a rule in Secret Server for client on boarding:
    1. Navigate to Admin > SDK Client Management > Client On boarding Tab
-   1. Click on the “+ Rule” button to create a new Rule
-   1. Name your Rule (Something that helps identify what this is, e.g. the application name)
-   1. Assign IPv4 restrictions (optional)
-   1. Assign an Application User Account (create one if you haven't already)
-   1. Generate a Rule Key (optional)
-   1. Save
+   2. Click on the “+ Rule” button to create a new Rule
+   3. Name your Rule (Something that helps identify what this is, e.g. the application name)
+   4. Assign IPv4 restrictions (optional)
+   5. Assign an Application User Account (create one if you haven't already)
+   6. Generate a Rule Key (optional)
+   7. Save
 1. The application account you created needs to have access to the Secrets your application needs. Ensure the permissions are accurate at the folder/secret level
 1. Download the SDK files from NuGet. You can do this either from NuGet.org or directly from Visual Studio
    1. Search for Thycotic
