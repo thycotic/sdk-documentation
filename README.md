@@ -321,39 +321,42 @@ This class has the following methods:
 
     This method doesn't have an overload, and calling it destroys the SDK cache
 
-#### .Configure(settings)
-
-    settings
-    Type: Object
-    Key value pairs to configure the SDK
-
 #### .Configure(IConfigSettings settings, [bool force = false])
 
-    settings
-    Type: Object
-    Key value pairs to configure the SDK
+<pre>
+<code><strong>settings</strong>
+Type: Object
+Key value pairs to configure the SDK</code>
+</pre>
 
-    force
-    Type: boolean
-    Default: false
-    Forces the SDK to reconfigure itself
+<pre>
+<code><strong>force (optional)</strong>
+Type: boolean
+Default: false
+Forces the SDK to reconfigure itself</code>
+</pre>
 
 #### .GetSecret(int id)
 
 This method returns a Secret object based on the REST secret model
-
-    id
-    Type: int32
-    The secret id needed to retrieve the Secret
+<pre>
+<code><strong>id</strong>
+Type: int32
+The secret id needed to retrieve the Secret</code>
+</pre>
 
 #### .GetSecretField(int id, string fieldslug)
 
-This gets a specific field from the Secret instead of returning the whole object
+This method gets a specific field from the Secret instead of returning the whole object
 
-    id
-    Type: int32
-    The Secret Id needed to retieve the Secret
+<pre>
+<code><strong>id</strong>
+Type: int32
+The Secret Id needed to retieve the Secret</code>
+</pre>
 
-    fieldslug
-    Type: String
-    Slug identifier for the Secret field e.g. password
+<pre>
+<code><strong>fieldslug</strong>
+Type: String
+Slug identifier for the Secret field e.g. password</code>
+</pre>
