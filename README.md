@@ -4,7 +4,7 @@
   - [Prerequisites](#prerequisites)
   - [Configuring the SDK](#configuring-the-sdk)
   - [Usage](#usage)
-- [SDK Integration in web.config](#sdk-integration-in-webconfig)
+- [SDK Integration in web.config (NetStandard 2.0)](#sdk-integration-in-webconfig)
   - [Prerequisites - Web](#prerequisites---web)
   - [Configuring the SDK - Web](#configuring-the-sdk---web)
   - [Usage - Web](#usage---web)
