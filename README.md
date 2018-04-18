@@ -16,8 +16,8 @@ In this scenario we’re assuming we can recompile the application, and will dyn
 ### Prerequisites
 
 1. .NET Standard 2.0 which equals to
-  - .NET Core 2.0 if building a .NET Core application
-  - .NET (Full Framework) 4.6.1
+  -.NET Core 2.0 if building a .NET Core application
+  -.NET (Full Framework) 4.6.1
 1. Create a rule in Secret Server for client onboarding:
    1. Navigate to Admin > SDK Client Management > Client Onboarding Tab
    1. Click on the “+ Rule” button to create a new Rule
