@@ -28,7 +28,7 @@ In this scenario we’re assuming we can recompile the application, and will dyn
    6. Generate a Rule Key (optional)
    7. Save
 1. The application account you created needs to have access to the Secrets your application needs. Ensure the permissions are accurate at the folder/secret level
-1. Download the SDK files from NuGet. You can do this either from NuGet.org or directly from Visual Studio
+1. Download the SDK files from NuGet. You can do this either from NuGet.org or directly from Visual Studio **(The latest version is always recommended unless explicitly told otherwise)**
    1. Search for Thycotic
    2. Install the following packages:
       - Thycotic.SecretServer.SDK
