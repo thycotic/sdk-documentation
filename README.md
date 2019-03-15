@@ -12,13 +12,10 @@
 
 ## SDK Integration in C# project
 
-In this scenario we’re assuming we can recompile the application, and will dynamically retrieve passwords from the vault whenever needed
+In this scenario we’re assuming we can recompile the application, and will dynamically retrieve passwords from the vault whenever needed.
 
 ### Prerequisites
 
-1. .NET Standard 2.0 which equals to
-  -.NET Core 2.0 if building a .NET Core application
-  -.NET (Full Framework) 4.6.1
 1. Create a rule in Secret Server for client on boarding:
    1. Navigate to Admin > SDK Client Management > Client On boarding Tab
    2. Click on the “+ Rule” button to create a new Rule
@@ -27,17 +24,20 @@ In this scenario we’re assuming we can recompile the application, and will dyn
    5. Assign an Application User Account (create one if you haven't already)
    6. Generate a Rule Key (optional)
    7. Save
-1. The application account you created needs to have access to the Secrets your application needs. Ensure the permissions are accurate at the folder/secret level
-1. Download the SDK files from NuGet. You can do this either from NuGet.org or directly from Visual Studio **(The latest version is always recommended unless explicitly told otherwise)**
+1. The application account you created needs to have access to the Secrets your application needs. Ensure the permissions are accurate at the folder/secret level.
+1. Download the SDK packages from NuGet. You can do this either directly from Visual Studio (recommended), or manually download and install them from [Nuget.org](https://www.nuget.org/packages?q=thycotic "https://www.nuget.org/packages?q=thycotic"). **(The latest version is always recommended unless explicitly told otherwise)**
    1. Search for Thycotic
-   2. Install the following packages:
+   1. Install the following packages:
       - Thycotic.SecretServer.SDK
       - Thycotic.SecretServer.SDK.Extension.Configuration
       - Thycotic.SecretServer.SDK.Extension.Integration
+   1. Note: The SDK Nuget packages target both .NET Framework v4.5 or higher, or .NET Standard 2.0. Visual Studio will install the appropriate version based on your project type.
+      - .NET Standard 2.0 supports either:
+        - .NET Core 2.0 if building a .NET Core application
+        - .NET (Full Framework) 4.6.1
 1. In your Project add the following references:
 
 ```C#
-
   using Thycotic.SecretServer.Sdk.Extensions.Integration.Clients;
   using Thycotic.SecretServer.Sdk.Extensions.Integration.Models;
   using Thycotic.SecretServer.Sdk.Infrastructure.Models;
@@ -66,7 +66,7 @@ client.Configure(new ConfigSettings
 The code above will register the integrated client with Secret Server. Below is an explanation of the properties of the client's ConfigSettings:
 
 - `ConfigSettings` is an object
-- `SecretServerUrl` is the base URL for your Secret Server (if you have a Load Balancer then it should be the load balanced URL
+- `SecretServerUrl` is the base URL for your Secret Server (if you have a Load Balancer then it should be the load balanced URL)
 - `RuleName` is the name of the rule we created earlier
 - `RuleKey` is the Key we generated, can be NULL if no key
 - `CacheStrategy` is how the SDK will cache requests. This is an enum with four options:
@@ -77,9 +77,15 @@ The code above will register the integrated client with Secret Server. Below is 
 - `CacheAge` is how long the cache is valid before it expires in minutes
 - `ResetToken`  is a random string to revoke clients and reinitialize them
 
+Once the client is configured for the first time, a series of encrypted configuration files are created. By default they will be saved in the current working directory of your application. This path can be customized with the SecretServerSdkConfigDirectory AppSetting. 
+
+If using the .NET Standard version of the SDK, these config files are protected by an encryption key. It is saved in the current user's home directory by default, but this path can also be customized with the SecretServerSdkKeyDirectory AppSetting if necessary.
+
+If you need to change your configuration, change your reset token and the SDK will reinitialize the config files. Otherwise, the SDK will not reconfigure itself as long as it can still access and decrypt the config files. Calls to client.Configure() are ignored if the reset token remains the same and the client has already been configured.
+
 ### Usage
 
-Now we can use the client to get a Secret, Token, or a Secret field from Secret Server, and feed that to our application
+Now we can use the client to get a Secret, Token, or a Secret field from Secret Server, and feed that to our application.
 
 ```c#
 
@@ -180,6 +186,8 @@ In this scenario we’re assuming we can't recompile the application, or prefer 
 
 The SDK will allow us to pull data from Secret Server and inject it in the config file.
 
+Note that the injected data is not available in Application_Start, because this is a HTTP Intercept module it will not have ran yet.
+
 ### Prerequisites - Web
 
 1. Create a rule in Secret Server for client onboarding:
@@ -190,10 +198,18 @@ The SDK will allow us to pull data from Secret Server and inject it in the confi
       1. Assign an Application User Account (create one if you haven't already)
       1. Generate a Rule Key (optional)
       1. Save
-1. Download the dlls from [Nuget](https://www.nuget.org/packages?q=thycotic "https://www.nuget.org/packages?q=thycotic")
-1. After downloading, use 7zip to unpack the ngpkg and navigate to the lib directory
-1. Make sure you only extract dlls from subdirectories in NetStandard2.0 or net461
-1. Copy the extracted dlls to your application’s bin folder:
+1. Install the Thycotic.SecretServer.Sdk.Extensions.Integration.HttpModule Nuget package.
+  - This is available in the Nuget package manager from Thycotic. Installing it will also install the necessary dependencies.
+  - We recommend this method of installation so dependencies will also be automatically installed, and the Nuget package manager will show when updates are available.
+1. It is also possible to Or manually download the packages from [Nuget](https://www.nuget.org/packages?q=thycotic "https://www.nuget.org/packages?q=thycotic"), but this requires more effort and you won't be notified of updates.
+  1. The following packages are needed:
+    - Thycotic.SecretServer.Sdk
+	- Thycotic.SecretServer.Sdk.Extensions.Configuration
+	- Thycotic.SecretServer.Sdk.Extensions.Integration
+	- Thycotic.SecretServer.Sdk.Extensions.Integration.HttpModule
+  1. After downloading, use 7zip to unpack the ngpkg and navigate to the lib directory
+  1. Make sure you only extract dlls from subdirectories in NetStandard2.0 or net461
+  1. Copy the extracted dlls to your application’s bin folder:
     - Thycotic.SecretServer.Sdk.dll
     - Thycotic.SecretServer.Sdk.Extensions.Configuration.dll
     - Thycotic.SecretServer.Sdk.Extensions.Integration.dll
@@ -294,7 +310,7 @@ Example old ConnectionString:
 
   ```
 
-New connection string with Secret Server SDK"
+New connection string with Secret Server SDK:
 
 ```xml
 
@@ -319,7 +335,7 @@ This class has the following methods:
 
 #### .BustCache()
 
-    This method doesn't have an overload, and calling it destroys the SDK cache
+This method doesn't have an overload. Calling it destroys the SDK's cache of Secrets. The SDK configuration is still retained.
 
 #### .Configure(IConfigSettings settings, [bool force = false])
 
@@ -339,6 +355,7 @@ Forces the SDK to reconfigure itself</code>
 #### .GetSecret(int id)
 
 This method returns a Secret object based on the REST secret model
+
 <pre>
 <code><strong>id</strong>
 Type: int32
@@ -360,3 +377,11 @@ The Secret Id needed to retieve the Secret</code>
 Type: String
 Slug identifier for the Secret field e.g. password</code>
 </pre>
+
+#### .GetAccessToken()
+
+This method returns a REST API token from Secret Server, after authenticating with the configured SDK account.
+
+#### .GetAccessTokenAsync()
+
+Just like GetAccessToken but asynchronous.
