@@ -9,6 +9,7 @@
   - [Configuring the SDK - Web](#configuring-the-sdk---web)
   - [Usage - Web](#usage---web)
 - [SDK API](#sdk-api)
+- [SDK Client](#sdk-client)
 
 ## SDK Integration in C# project
 
@@ -385,3 +386,11 @@ This method returns a REST API token from Secret Server, after authenticating wi
 #### .GetAccessTokenAsync()
 
 Just like GetAccessToken but asynchronous.
+
+## SDK Client
+
+To get the command-line interface SDK Client tool check out our knowledge base article, [SDK Downloads](https://thycotic.force.com/support/s/article/SS-SDK-Downloads "https://thycotic.force.com/support/s/article/SS-SDK-Downloads").  This tool is not required to use the SDK NuGet packages.
+
+The SDK Client and SDK NuGet packages are two separate projects with separate versioning.  We actively work to maintain feature parity between the two projects, but at times their features may differ.
+
+
