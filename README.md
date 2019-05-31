@@ -325,6 +325,30 @@ New connection string with Secret Server SDK:
   </connectionStrings>
 
 ```
+Example old appsetting section Keys in web.config:
+```xml
+
+<appSettings>
+      <add key="domain" value="Domain.com" />
+      <add key="username" value="abcuser" />
+      <add key="password" value="passwordabc" /> 
+      <add key="UserNameWithDomain" value="Domain.com\abcuser" /> 
+  </appSettings>
+
+  ```
+
+New appsetting with Secret Server SDK in web.config:
+
+```xml
+
+<appSettings>
+      <add key="domain" value="${domain}?3112" />
+      <add key="username" value="${username}?3112" />
+      <add key="password" value="${password}?3112" /> 
+      <add key="UserNameWithDomain" value="${domain}\${username}?3112" />
+  </appSettings>
+
+```
 
 Where the `3112` is the Secret Id preceded by `?`
 
