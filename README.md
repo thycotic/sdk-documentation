@@ -1,3 +1,6 @@
+https://medium.com/@amshekar/thycotic-pam-sdk-integration-in-appsettings-section-of-web-config-9f1e8ab88413
+https://medium.com/@amshekar/thycotic-pam-sdk-integration-with-c-rest-54bed114d7a4
+
 # Thycotic SDK Integration Doc
 
 - [SDK Integration in C# project](#dk-integration-in-c-project)
