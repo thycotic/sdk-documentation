@@ -1,5 +1,4 @@
-https://medium.com/@amshekar/thycotic-pam-sdk-integration-in-appsettings-section-of-web-config-9f1e8ab88413
-https://medium.com/@amshekar/thycotic-pam-sdk-integration-with-c-rest-54bed114d7a4
+
 
 # Thycotic SDK Integration Doc
 
@@ -223,16 +222,25 @@ Note that the injected data is not available in Application_Start, because this 
 
 - Open you web.config file in your preferred code editor and add the inside your appSettings tag following:
 
+
   ```xml
+
 
   <appSettings>
       <add key="tss:CacheAge" value="<cache-age>" />
+	  
       <add key="tss:CacheStrategy" value="<cache-strategy>" />
+	  
       <add key="tss:SecretServerUrl" value="<your-secret-server-url>" />
+	  
       <add key="tss:RuleName" value="<rule-name>" />
+	  
       <add key="tss:RuleKey" value="<rule-key>" />
+	  
       <add key="tss:ResetToken" value="<reset-token>" />
+	  
   </appSettings>
+
 
   ```
 
@@ -296,7 +304,8 @@ Note that the injected data is not available in Application_Start, because this 
 ```
 > Match the version number with what you have installed on your system
 
-## Usage - Web
+## Usage - Web 
+ ### Example 1
 
 To replace plaintext credentials in your web.config file we simply use string interpolation to replace the hard-coded values with Secret Server values as shown below
 
@@ -304,12 +313,15 @@ Example old ConnectionString:
 ```xml
 
 <connectionStrings>
+	
     <clear />
+	
     <add
         name="AdventureWorks2014ConnectionString"
         connectionString="Data Source=sql01.domain.com;Initial Catalog=AdventureWorks2014;Persist Security Info=True;User ID=sa;Password=SgW#5)zLpo($@d"
         providerName="System.Data.SqlClient"
     />
+	
   </connectionStrings>
 
   ```
@@ -328,14 +340,20 @@ New connection string with Secret Server SDK:
   </connectionStrings>
 
 ```
+### Example 2
 Example old appsetting section Keys in web.config:
+
 ```xml
 
 <appSettings>
       <add key="domain" value="Domain.com" />
+	
       <add key="username" value="abcuser" />
+	
       <add key="password" value="passwordabc" /> 
+	
       <add key="UserNameWithDomain" value="Domain.com\abcuser" /> 
+	
   </appSettings>
 
   ```
@@ -346,9 +364,13 @@ New appsetting with Secret Server SDK in web.config:
 
 <appSettings>
       <add key="domain" value="${domain}?3112" />
+	
       <add key="username" value="${username}?3112" />
+	
       <add key="password" value="${password}?3112" /> 
+	
       <add key="UserNameWithDomain" value="${domain}\${username}?3112" />
+	
   </appSettings>
 
 ```
