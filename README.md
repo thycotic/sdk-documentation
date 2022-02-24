@@ -77,6 +77,8 @@ The code above will register the integrated client with Secret Server. Below is 
   - `ServerThenCache` (This mode is for redundancy since it will fall back to cache in case Secret Server isn’t available)
 - `CacheAge` is how long the cache is valid before it expires in minutes
 - `ResetToken`  is a random string to revoke clients and reinitialize them
+- `SecretServerSdkConfigDirectory` is an optional parameter to specify the directory for the SDK to store encrypted configuration files
+- `SecretServerSdkKeyDirectory` is an optional parameter to specify the directory for the SDK to store the key file used to encrypt the configuration files
 
 Once the client is configured for the first time, a series of encrypted configuration files are created. By default they will be saved in the current working directory of your application. This path can be customized with the SecretServerSdkConfigDirectory AppSetting. 
 
@@ -229,6 +231,8 @@ Note that the injected data is not available in Application_Start, because this 
       <add key="tss:RuleName" value="<rule-name>" />
       <add key="tss:RuleKey" value="<rule-key>" />
       <add key="tss:ResetToken" value="<reset-token>" />
+      <add key="tss:SecretServerSdkConfigDirectory" value="<directory-with-read-and-write>" />
+      <add key="tss:SecretServerSdkKeyDirectory " value="<directory-with-read-and-write>" />
   </appSettings>
 
   ```
@@ -244,6 +248,8 @@ Note that the injected data is not available in Application_Start, because this 
     - tss:RuleName: the name of the rule you created in Secret Server
     - tss:RuleKey:  the pre-shared key you generated for the rule
     - tss:ResetToken: This is a string value used to reinitialize the SDK. It can be anything, and changing it will cause the client to reinitialize and reregister itself
+    - tss:SecretServerSdkConfigDirectory: Optional parameter to specify the directory for the SDK to store encrypted configuration files
+    - tss:SecretServerSdkKeyDirectory: Optional parameter to specify the directory for the SDK to store the key file used to encrypt the configuration files
 - Scroll to
     ```xml
           <system.webServer>
